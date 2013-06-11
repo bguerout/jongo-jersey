@@ -3,19 +3,21 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.jongo</groupId>
-    <artifactId>jongo-jersey</artifactId>
+    <artifactId>xebia-bigdata-mongo</artifactId>
     <version>0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
                 <configuration>
                     <compilerVersion>1.5</compilerVersion>
                     <fork>true</fork>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>1.6</source>
+                    <target>1.6</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -23,15 +25,25 @@
 
     <properties>
         <jongo.version>0.4</jongo.version>
-        <mongo.version>2.9.0</mongo.version>
+        <mongo.version>2.11.1</mongo.version>
         <jersey.version>1.13</jersey.version>
     </properties>
 
     <dependencies>
         <dependency>
+            <groupId>org.jongo</groupId>
+            <artifactId>jongo</artifactId>
+            <version>${jongo.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>${mongo.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>11.0.1</version>
+            <version>14.0.1</version>
         </dependency>
         <dependency>
             <groupId>com.sun.jersey</groupId>
@@ -54,21 +66,12 @@
             <version>${jersey.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.jongo</groupId>
-            <artifactId>jongo</artifactId>
-            <version>${jongo.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongo-java-driver</artifactId>
-            <version>${mongo.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-client</artifactId>
             <version>${jersey.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
