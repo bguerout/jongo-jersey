@@ -1,5 +1,7 @@
-Jongo + Jersey
+Xebia Bigdata Mongo
 ==============
 
-Because Jongo uses Jackson by default, exposing the same objects with Jersey won't work if they have an ObjectId. 
-This full working sample shows how to make Jersey expose ObjectId as String (and annoted String with @ObjectId too).
+Import tweets into mongo:
+
+curl -o tweets-bigdata-sample.json https://dl.dropboxusercontent.com/u/7521332/tweets-bigdata-sample.json
+mongoimport -d xebia -c tweet --drop < tweets-bigdata-sample.json
