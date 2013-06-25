@@ -1,0 +1,1 @@
+{ "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "ns" : "xebia.tweets2", "name" : "_id_" }, { "v" : 1, "key" : { "coordinates" : "2dsphere" }, "ns" : "xebia.tweets2", "name" : "coordinates_2dsphere" } ] }
