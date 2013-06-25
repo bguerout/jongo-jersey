@@ -6,6 +6,7 @@ import com.xebia.bigdata.data.Tweets;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -16,9 +17,9 @@ public class TweetResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response get() {
+    public Response get(@QueryParam("limit") int limit) {
 
-        List<Tweet> tweets = Tweets.get();
+        List<Tweet> tweets = Tweets.get(limit);
 
         GenericEntity<List<Tweet>> entity = new GenericEntity<List<Tweet>>(tweets) {
         };

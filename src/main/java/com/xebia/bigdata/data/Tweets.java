@@ -23,9 +23,13 @@ public class Tweets {
         }
     }
 
-    public static List<Tweet> get() {
+    public static List<Tweet> get(int limit) {
         MongoCollection collection = jongo.getCollection("tweets");
-        Iterable<Tweet> tweets = collection.find().limit(250).as(Tweet.class);
+        Iterable<Tweet> tweets = collection
+                .find()
+                .projection("{coordinates:1,date:1,'entities.hashtags.text':1}")
+                .limit(limit)
+                .as(Tweet.class);
         return newArrayList(tweets);
     }
 

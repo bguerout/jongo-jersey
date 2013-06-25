@@ -2,7 +2,6 @@ package com.xebia.bigdata.util;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
@@ -20,19 +19,18 @@ public class JacksonProvider implements ContextResolver<ObjectMapper> {
         mapper = createMapper();
     }
 
+    @Override
     public ObjectMapper getContext(Class<?> type) {
         return mapper;
     }
 
-    private static ObjectMapper createMapper() {
+    private ObjectMapper createMapper() {
         ObjectMapper mapper = new ObjectMapper();
-        mapper.disable(MapperFeature.AUTO_DETECT_GETTERS);
         mapper.disable(MapperFeature.AUTO_DETECT_SETTERS);
-        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         mapper.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
 
         VisibilityChecker<?> checker = mapper.getSerializationConfig().getDefaultVisibilityChecker();
-        mapper.setVisibilityChecker(checker.withFieldVisibility(JsonAutoDetect.Visibility.ANY));
+        mapper.setVisibilityChecker(checker.withFieldVisibility(JsonAutoDetect.Visibility.PUBLIC_ONLY));
 
         mapper.registerModule(new SimpleModule("jersey"));
 
