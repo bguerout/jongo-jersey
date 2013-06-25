@@ -1,4 +1,4 @@
-package org.jongo.jersey.rule;
+package com.xebia.bigdata.rule;
 
 import org.junit.rules.ExternalResource;
 

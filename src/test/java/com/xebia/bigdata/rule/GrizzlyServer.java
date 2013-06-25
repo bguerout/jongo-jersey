@@ -1,4 +1,4 @@
-package org.jongo.jersey.rule;
+package com.xebia.bigdata.rule;
 
 import static com.sun.jersey.api.core.ResourceConfig.PROPERTY_CONTAINER_REQUEST_FILTERS;
 import static com.sun.jersey.api.core.ResourceConfig.PROPERTY_CONTAINER_RESPONSE_FILTERS;
@@ -21,7 +21,7 @@ public class GrizzlyServer extends Server {
     }
 
     private ResourceConfig newConfig() {
-        ResourceConfig rc = new PackagesResourceConfig("org.jongo.jersey.resource", "org.jongo.jersey.provider");
+        ResourceConfig rc = new PackagesResourceConfig("com.xebia.bigdata.web", "org.jongo.jersey.provider");
         rc.getProperties().put(PROPERTY_CONTAINER_REQUEST_FILTERS, new LoggingFilter());
         rc.getProperties().put(PROPERTY_CONTAINER_RESPONSE_FILTERS, new LoggingFilter());
         return rc;
