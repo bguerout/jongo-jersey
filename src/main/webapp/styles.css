@@ -27,4 +27,52 @@ html, body {
   background-color: #fff;
   padding: 5px;
   border: 1px solid #999;
+  font-family: Helvetica;
+  font-size: 20px;
+  text-align: center;
+  font-weight: 100;
+}
+
+#panel span.tweet {
+  display: inline-block;
+  width: 80px;
+  border-right: 1px solid #999;
+}
+
+#panel span.tweet b {
+  display: block;
+}
+
+#panel span.date {
+  position: relative;
+  top: -10px;
+}
+
+#panel button {
+  border: 0;
+  background-color: white;
+  cursor: pointer;
+  padding-top: 19px;
+}
+
+#panel button.previous:after, button.next:after {
+  content:"";
+  position: relative;
+  display: inline-block;
+  width: 0; 
+  height: 0; 
+  top: -15px;
+  left: -15px;
+}
+
+#panel button.next:after {
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid black;
+}
+
+#panel button.previous:after {
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid black;
 }
