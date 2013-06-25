@@ -8,6 +8,10 @@ public class Coordinates {
     private Coordinates() {
     }
 
+    public Coordinates(double[] coordinates) {
+        this.coordinates = coordinates;
+    }
+
     public double getLongitude() {
         if (coordinates != null) {
             return coordinates[0];

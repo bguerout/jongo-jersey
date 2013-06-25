@@ -7,6 +7,6 @@ public class Tweet {
     public Coordinates coordinates;
     public Date date;
 
-    Tweet() {
+    public Tweet() {
     }
 }
