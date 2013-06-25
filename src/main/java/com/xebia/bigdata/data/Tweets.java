@@ -1,5 +1,6 @@
 package com.xebia.bigdata.data;
 
+import com.mongodb.DB;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import org.jongo.Jongo;
@@ -17,18 +18,20 @@ public class Tweets {
     static {
         try {
             Mongo mongo = new MongoClient();
-            jongo = new Jongo(mongo.getDB("xebia"));
+            DB db = mongo.getDB("xebia");
+            jongo = new Jongo(db);
         } catch (UnknownHostException e) {
             throw new RuntimeException("Unable to reach mongo database", e);
         }
     }
 
-    public static List<Tweet> get(int limit) {
+    public static List<Tweet> get(int limit, int skip) {
         MongoCollection collection = jongo.getCollection("tweets");
         Iterable<Tweet> tweets = collection
                 .find()
                 .projection("{coordinates:1,date:1,'entities.hashtags.text':1}")
                 .limit(limit)
+                .skip(skip)
                 .as(Tweet.class);
         return newArrayList(tweets);
     }

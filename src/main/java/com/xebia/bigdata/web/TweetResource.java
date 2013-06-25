@@ -15,11 +15,14 @@ import java.util.List;
 @Path("tweets")
 public class TweetResource {
 
+    /**
+     * ex http://localhost:8080/tweets?limit=13000&skip=130000
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response get(@QueryParam("limit") int limit) {
+    public Response get(@QueryParam("limit") int limit, @QueryParam("skip") int skip) {
 
-        List<Tweet> tweets = Tweets.get(limit);
+        List<Tweet> tweets = Tweets.get(limit, skip);
 
         GenericEntity<List<Tweet>> entity = new GenericEntity<List<Tweet>>(tweets) {
         };
