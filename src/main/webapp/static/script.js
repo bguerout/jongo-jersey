@@ -2,7 +2,7 @@ var map,
     pointarray,
     heatmap,
     taxiData = [],
-    now = moment().minutes(0).seconds(0).milliseconds(0),
+    now = moment("20130625 10", "YYYYMMDD h A").minutes(0).seconds(0).milliseconds(0),
     moments = [],
     search,
     me;
@@ -23,6 +23,14 @@ $(function () {
         displayDots();
     });
 
+    $('.worldwide').on('click', function () {
+        worldwideHeatmap();
+    });
+
+    $('.clear').on('click', function () {
+        heatmap.setData([]);
+    });
+
     $('.search input').bindWithDelay('keyup', function () {
         displayDots($(this).val());
     }, 1000);
@@ -36,7 +44,7 @@ $(function () {
 
 function displayNow() {
     $('.date').text(now.format('MMMM Do, ha'));
-}
+};
 
 function displayDots(term) {
     if (!_.isUndefined(term)) {
@@ -46,8 +54,7 @@ function displayDots(term) {
     $.getJSON('/tweets?lat=' + me.latitude +
         '&lng=' + me.longitude +
         '&start=' + now +
-        '&end=' + now.clone().add(1, 'hour') +
-        (search ? '&search=' + search : ''),
+        '&end=' + now.clone().add(1, 'hour'),
         function (data) {
             if (!_.contains(moments, +now)) {
                 moments.push(+now);
@@ -65,7 +72,22 @@ function displayDots(term) {
 
             displayNow();
         });
-}
+};
+
+function worldwideHeatmap() {
+    console.log('Get worldwide');
+    $.getJSON('/tweets/worldwide?start=' + now + '&end=' + now.clone().add(1, 'hour'),
+        function (data) {
+            $.each(data, function (index, pos) {
+                if (pos.latitude) {
+                    var dot = new google.maps.LatLng(pos.latitude, pos.longitude);
+                    taxiData.push(dot);
+                }
+            });
+            heatmap.setData(taxiData);
+            $('.tweet b').text(taxiData.length);
+        });
+};
 
 function initialize(lat, lng) {
     heatmap = new google.maps.visualization.HeatmapLayer();
@@ -74,4 +96,4 @@ function initialize(lat, lng) {
         center: new google.maps.LatLng(lat, lng),
         mapTypeId: google.maps.MapTypeId.ROADMAP
     }));
-}
+};

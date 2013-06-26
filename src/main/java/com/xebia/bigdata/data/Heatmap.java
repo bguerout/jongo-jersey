@@ -9,7 +9,6 @@ public class Heatmap {
 
     public Heatmap(List<String> coords) {
         this.coords = coords;
-
     }
 
     public List<Coordinates> getCoordinates() {

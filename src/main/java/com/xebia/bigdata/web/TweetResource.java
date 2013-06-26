@@ -1,5 +1,6 @@
 package com.xebia.bigdata.web;
 
+import com.xebia.bigdata.data.Coordinates;
 import com.xebia.bigdata.data.Tweet;
 import com.xebia.bigdata.data.Tweets;
 
@@ -10,6 +11,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Date;
 import java.util.List;
 
 @Path("tweets")
@@ -20,8 +22,16 @@ public class TweetResource {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response get(@QueryParam("lat") String lat, @QueryParam("lng") String lng) {
+    public Response get(@QueryParam("lat") String lat,
+                        @QueryParam("lng") String lng,
+                        @QueryParam("start") String start,
+                        @QueryParam("end") String end) {
+
+        Date startAt = asDate(start);
+        Date endAt = asDate(end);
+
         List<Tweet> tweets = Tweets.get(200, 0);
+
         return sendResponse(tweets);
     }
 
@@ -29,16 +39,27 @@ public class TweetResource {
      * ex http://localhost:8080/tweets/heatmap
      */
     @GET
-    @Path("heatmap")
+    @Path("worldwide")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response heatmap() {
-        return sendResponse(Tweets.distinct().getCoordinates());
+    public Response worldwide(@QueryParam("start") String start,
+                              @QueryParam("end") String end) {
+
+        Date startAt = asDate(start);
+        Date endAt = asDate(end);
+
+        List<Coordinates> coordinates = Tweets.getWorldwide(startAt, endAt).getCoordinates();
+
+        return sendResponse(coordinates);
     }
 
     private <T> Response sendResponse(List<T> docs) {
         GenericEntity<List<T>> entity = new GenericEntity<List<T>>(docs) {
         };
         return Response.ok(entity).build();
+    }
+
+    private Date asDate(String start) {
+        return new Date(Long.valueOf(start));
     }
 
 }

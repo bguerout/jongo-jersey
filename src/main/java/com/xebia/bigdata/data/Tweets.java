@@ -7,6 +7,7 @@ import org.jongo.Jongo;
 import org.jongo.MongoCollection;
 
 import java.net.UnknownHostException;
+import java.util.Date;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
@@ -29,16 +30,19 @@ public class Tweets {
         MongoCollection collection = jongo.getCollection("tweets");
         Iterable<Tweet> tweets = collection
                 .find()
-                //.projection("{coordinates:1,date:1}")
+                .projection("{coordinates:1,date:1}")
                 .limit(limit)
                 .skip(skip)
                 .as(Tweet.class);
         return newArrayList(tweets);
     }
 
-    public static Heatmap distinct() {
+    public static Heatmap getWorldwide(Date start, Date end) {
         MongoCollection collection = jongo.getCollection("tweets");
-        List<String> coords = collection.distinct("rcoords").as(String.class);
+        List<String> coords = collection
+                .distinct("rcoords")
+                .query("{date:{$gte:#,$lte:#}}", start, end)
+                .as(String.class);
         return new Heatmap(coords);
     }
 
