@@ -29,11 +29,17 @@ public class Tweets {
         MongoCollection collection = jongo.getCollection("tweets");
         Iterable<Tweet> tweets = collection
                 .find()
-                .projection("{coordinates:1,date:1,'entities.hashtags.text':1}")
+                //.projection("{coordinates:1,date:1}")
                 .limit(limit)
                 .skip(skip)
                 .as(Tweet.class);
         return newArrayList(tweets);
+    }
+
+    public static Heatmap distinct() {
+        MongoCollection collection = jongo.getCollection("tweets");
+        List<String> coords = collection.distinct("rcoords").as(String.class);
+        return new Heatmap(coords);
     }
 
 }
