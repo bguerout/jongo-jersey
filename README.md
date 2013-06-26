@@ -15,3 +15,11 @@ Commands to prepare collection (already done in previous dump)
 ```
 
 
+Maven stuff
+
+Declare jetty into settings.xml
+```xml
+<pluginGroups>
+    <pluginGroup>org.mortbay.jetty</pluginGroup>
+</pluginGroups>
+```
