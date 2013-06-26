@@ -18,8 +18,8 @@ public class Tweets {
 
     static {
         try {
-            Mongo mongo = new MongoClient();
-            DB db = mongo.getDB("xebia");
+            Mongo mongo = new MongoClient("mongo-1.aws.xebiatechevent.info");
+            DB db = mongo.getDB("tweets");
             jongo = new Jongo(db);
         } catch (UnknownHostException e) {
             throw new RuntimeException("Unable to reach mongo database", e);
