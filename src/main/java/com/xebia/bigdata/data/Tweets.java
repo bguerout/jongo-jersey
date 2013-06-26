@@ -26,13 +26,13 @@ public class Tweets {
         }
     }
 
-    public static List<Tweet> get(int limit, int skip) {
+    public static List<Tweet> get(double lat, double lng, Date start, Date end) {
         MongoCollection collection = jongo.getCollection("tweets");
+        double radius = (double)100/6371;
         Iterable<Tweet> tweets = collection
-                .find()
+                .find("{ coordinates : { $geoWithin :{ $centerSphere: [ [ #,# ], #] } } }", lng, lat, radius)
                 .projection("{coordinates:1,date:1}")
-                .limit(limit)
-                .skip(skip)
+                .limit(5000)
                 .as(Tweet.class);
         return newArrayList(tweets);
     }

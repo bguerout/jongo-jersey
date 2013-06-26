@@ -22,15 +22,15 @@ public class TweetResource {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response get(@QueryParam("lat") String lat,
-                        @QueryParam("lng") String lng,
+    public Response get(@QueryParam("lat") double lat,
+                        @QueryParam("lng") double lng,
                         @QueryParam("start") long start,
                         @QueryParam("end") long end) {
 
         Date startAt = new Date(start);
         Date endAt = new Date(end);
 
-        List<Tweet> tweets = Tweets.get(200, 0);
+        List<Tweet> tweets = Tweets.get(lat, lng, startAt, endAt);
 
         return sendResponse(tweets);
     }
