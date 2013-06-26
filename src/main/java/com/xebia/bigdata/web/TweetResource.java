@@ -24,11 +24,11 @@ public class TweetResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response get(@QueryParam("lat") String lat,
                         @QueryParam("lng") String lng,
-                        @QueryParam("start") String start,
-                        @QueryParam("end") String end) {
+                        @QueryParam("start") long start,
+                        @QueryParam("end") long end) {
 
-        Date startAt = asDate(start);
-        Date endAt = asDate(end);
+        Date startAt = new Date(start);
+        Date endAt = new Date(end);
 
         List<Tweet> tweets = Tweets.get(200, 0);
 
@@ -41,11 +41,11 @@ public class TweetResource {
     @GET
     @Path("worldwide")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response worldwide(@QueryParam("start") String start,
-                              @QueryParam("end") String end) {
+    public Response worldwide(@QueryParam("start") long start,
+                              @QueryParam("end") long end) {
 
-        Date startAt = asDate(start);
-        Date endAt = asDate(end);
+        Date startAt = new Date(start);
+        Date endAt = new Date(end);
 
         List<Coordinates> coordinates = Tweets.getWorldwide(startAt, endAt).getCoordinates();
 
@@ -57,9 +57,4 @@ public class TweetResource {
         };
         return Response.ok(entity).build();
     }
-
-    private Date asDate(String start) {
-        return new Date(Long.valueOf(start));
-    }
-
 }
