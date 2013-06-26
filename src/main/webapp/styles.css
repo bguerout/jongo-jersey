@@ -22,7 +22,7 @@ html, body {
   position: absolute;
   top: 5px;
   left: 50%;
-  margin-left: -180px;
+  margin-left: -265px;
   z-index: 5;
   background-color: #fff;
   padding: 5px;
@@ -43,7 +43,7 @@ html, body {
   display: block;
 }
 
-#panel span.date {
+#panel span.date, #panel span.search {
   position: relative;
   top: -10px;
 }
@@ -75,4 +75,27 @@ html, body {
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
   border-right: 10px solid black;
+}
+
+#panel span.search {
+  padding: 11px 8px;
+  border-left: 1px solid #999;
+}
+
+#panel span.search input {
+  border: 0;
+  border-bottom: 1px solid black;
+  outline: none;
+  font-family: Helvetica;
+  font-size: 20px;
+  font-weight: 100;
+  width: 150px;
+  background: url(search.png);
+  background-repeat:no-repeat;
+  background-position:right bottom;
+  padding: 2px;
+}
+
+#panel span.search {
+
 }

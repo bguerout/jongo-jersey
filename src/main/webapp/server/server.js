@@ -510,7 +510,7 @@ var shuffle = function(arr, start, end) {
  return arr.sort(function() { return .5 - Math.random(); }).slice(start, end);
 };
 
-app.get('/dots', function(req, res) {
+app.get('/tweet', function(req, res) {
 	res.send(shuffle(dots, 0, 50 * Math.random() >> 0));
 });
 
