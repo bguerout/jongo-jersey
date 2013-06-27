@@ -23,10 +23,6 @@ $(function () {
         displayDots();
     });
 
-    $('.worldwide').on('click', function () {
-        worldwideHeatmap();
-    });
-
     $('.clear').on('click', function () {
         heatmap.setData([]);
     });
@@ -72,21 +68,6 @@ function displayDots(term) {
             }
 
             displayNow();
-        });
-};
-
-function worldwideHeatmap() {
-    console.log('Get worldwide');
-    $.getJSON('/tweets/worldwide?start=' + now + '&end=' + now.clone().add(1, 'day'),
-        function (data) {
-            $.each(data, function (index, pos) {
-                if (pos.latitude) {
-                    var dot = new google.maps.LatLng(pos.latitude, pos.longitude);
-                    taxiData.push(dot);
-                }
-            });
-            heatmap.setData(taxiData);
-
         });
 };
 

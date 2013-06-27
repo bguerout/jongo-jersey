@@ -48,23 +48,6 @@ public class TweetResource {
     }
 
     /**
-     * ex http://localhost:8080/tweets/heatmap
-     */
-    @GET
-    @Path("worldwide")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response worldwide(@QueryParam("start") long start,
-                              @QueryParam("end") long end) {
-
-        Date startAt = new Date(start);
-        Date endAt = new Date(end);
-
-        List<Coordinates> coordinates = Tweets.getWorldwide(startAt, endAt).getCoordinates();
-
-        return sendResponse(coordinates);
-    }
-
-    /**
      * ex http://localhost:8080/tweets/nearest?lat=2&lng=48.5&limit=15
      */
     @GET
@@ -85,11 +68,11 @@ public class TweetResource {
     @Consumes("application/x-www-form-urlencoded")
     @Path("area")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response findInArea(MultivaluedMap<String, String> formParams){
+    public Response findInArea(MultivaluedMap<String, String> formParams) {
         RequestPolygon requestPolygon = new RequestPolygon();
         List<String> points = formParams.get("points[]");
         for (String point : points) {
-            Coordinates c = new Coordinates(new double[]{Double.parseDouble(point.split(",")[0]),Double.parseDouble(point.split(",")[1])});
+            Coordinates c = new Coordinates(new double[]{Double.parseDouble(point.split(",")[0]), Double.parseDouble(point.split(",")[1])});
             requestPolygon.coordinatesList.add(c);
         }
 

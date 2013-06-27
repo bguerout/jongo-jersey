@@ -4,7 +4,10 @@ import com.google.common.base.Joiner;
 import com.mongodb.DB;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
-import com.xebia.bigdata.data.*;
+import com.xebia.bigdata.data.GeoNearResults;
+import com.xebia.bigdata.data.RequestPolygon;
+import com.xebia.bigdata.data.Stat;
+import com.xebia.bigdata.data.Tweet;
 import org.jongo.Jongo;
 import org.jongo.MongoCollection;
 
@@ -49,15 +52,6 @@ public class Tweets {
                 .and("{ $unwind : '$tags' }")
                 .and("{ $group : {_id : '$lang',nbTags : { $sum : 1 }} }")
                 .as(Stat.class);
-    }
-
-    public static Heatmap getWorldwide(Date start, Date end) {
-        MongoCollection collection = jongo.getCollection("tweets");
-        List<String> coords = collection
-                .distinct("rcoords")
-                .query("{date:{$gte:#,$lte:#}}", start, end)
-                .as(String.class);
-        return new Heatmap(coords);
     }
 
     public static GeoNearResults findNearest(double lat, double lng, long limit) {
