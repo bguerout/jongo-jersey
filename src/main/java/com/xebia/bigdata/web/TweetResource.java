@@ -23,7 +23,8 @@ public class TweetResource {
     public Response get(@QueryParam("lat") double lat,
                         @QueryParam("lng") double lng,
                         @QueryParam("start") long start,
-                        @QueryParam("end") long end) {
+                        @QueryParam("end") long end,
+                        @QueryParam("search") String search) {
 
         Date startAt = new Date(start);
         Date endAt = new Date(end);
