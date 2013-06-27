@@ -18,27 +18,6 @@ import java.util.List;
 @Path("tweets")
 public class TweetResource {
 
-    /**
-     * ex http://localhost:8080/tweets?limit=13000&skip=130000
-     */
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response heatmap(@QueryParam("lat") double lat,
-                            @QueryParam("lng") double lng,
-                            @QueryParam("start") long start,
-                            @QueryParam("end") long end) {
-
-        Date startAt = new Date(start);
-        Date endAt = new Date(end);
-
-        List<Tweet> tweets = Tweets.heatmap(lat, lng, startAt, endAt);
-
-        return sendResponse(tweets);
-    }
-
-    /**
-     * ex http://localhost:8080/tweets/nearest?lat=2&lng=48.5&limit=15
-     */
     @GET
     @Path("nearest")
     @Produces(MediaType.APPLICATION_JSON)
@@ -67,6 +46,21 @@ public class TweetResource {
         }
 
         List<Tweet> tweets = Tweets.findInArea(coordinates);
+
+        return sendResponse(tweets);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response heatmap(@QueryParam("lat") double lat,
+                            @QueryParam("lng") double lng,
+                            @QueryParam("start") long start,
+                            @QueryParam("end") long end) {
+
+        Date startAt = new Date(start);
+        Date endAt = new Date(end);
+
+        List<Tweet> tweets = Tweets.heatmap(lat, lng, startAt, endAt);
 
         return sendResponse(tweets);
     }
