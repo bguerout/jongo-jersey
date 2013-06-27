@@ -1,6 +1,5 @@
 package com.xebia.bigdata.web;
 
-import com.google.common.collect.Lists;
 import com.xebia.bigdata.Tweets;
 import com.xebia.bigdata.data.*;
 
@@ -20,31 +19,17 @@ public class TweetResource {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response get(@QueryParam("lat") double lat,
-                        @QueryParam("lng") double lng,
-                        @QueryParam("start") long start,
-                        @QueryParam("end") long end,
-                        @QueryParam("search") String search) {
+    public Response heatmap(@QueryParam("lat") double lat,
+                            @QueryParam("lng") double lng,
+                            @QueryParam("start") long start,
+                            @QueryParam("end") long end) {
 
         Date startAt = new Date(start);
         Date endAt = new Date(end);
 
-        List<Tweet> tweets = Tweets.get(lat, lng, startAt, endAt);
+        List<Tweet> tweets = Tweets.heatmap(lat, lng, startAt, endAt);
 
         return sendResponse(tweets);
-    }
-
-    /**
-     * ex http://localhost:8080/tweets/heatmap
-     */
-    @GET
-    @Path("stats")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response stats() {
-
-        List<Stat> stats = Lists.newArrayList(new Stat("bg", 619));
-
-        return sendResponse(Tweets.tagsPerLang());
     }
 
     /**
@@ -79,6 +64,16 @@ public class TweetResource {
         List<Tweet> tweets = Tweets.findInArea(requestPolygon);
 
         return sendResponse(tweets);
+    }
+
+    @GET
+    @Path("stats")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response stats() {
+
+        List<Stat> stats = Tweets.tagsPerLang();
+
+        return sendResponse(stats);
     }
 
     private <T> Response sendResponse(List<T> docs) {

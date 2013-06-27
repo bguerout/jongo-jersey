@@ -34,7 +34,7 @@ public class Tweets {
         }
     }
 
-    public static List<Tweet> get(double lat, double lng, Date start, Date end) {
+    public static List<Tweet> heatmap(double lat, double lng, Date start, Date end) {
         MongoCollection collection = jongo.getCollection("tweets");
         Iterable<Tweet> tweets = collection
                 .find("{ date:{$gte:#,$lte:#}, coordinates : { $geoWithin :{ $centerSphere: [ [ #,# ], #] } } }", start, end, lng, lat, RADIUS)
@@ -42,16 +42,6 @@ public class Tweets {
                 .limit(40000)
                 .as(Tweet.class);
         return newArrayList(tweets);
-    }
-
-    public static List<Stat> tagsPerLang() {
-        MongoCollection collection = jongo.getCollection("tweets");
-        return collection
-                .aggregate("{$match:{'entities.hashtags':{$ne:[]}}}")
-                .and("{ $project : {lang : 1,  tags:'$entities.hashtags.text'} }")
-                .and("{ $unwind : '$tags' }")
-                .and("{ $group : {_id : '$lang',nbTags : { $sum : 1 }} }")
-                .as(Stat.class);
     }
 
     public static GeoNearResults findNearest(double lat, double lng, long limit) {
@@ -73,5 +63,15 @@ public class Tweets {
                 .as(Tweet.class);
 
         return newArrayList(tweets);
+    }
+
+    public static List<Stat> tagsPerLang() {
+        MongoCollection collection = jongo.getCollection("tweets");
+        return collection
+                .aggregate("{$match:{'entities.hashtags':{$ne:[]}}}")
+                .and("{ $project : {lang : 1,  tags:'$entities.hashtags.text'} }")
+                .and("{ $unwind : '$tags' }")
+                .and("{ $group : {_id : '$lang',nbTags : { $sum : 1 }} }")
+                .as(Stat.class);
     }
 }
