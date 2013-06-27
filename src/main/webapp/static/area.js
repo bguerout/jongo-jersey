@@ -74,12 +74,9 @@ function searchTweets() {
         data.push(coords[i].lat() + "," + coords[i].lng());
     }
     data.push(coords[0].lat() + "," + coords[0].lng());
-    console.log(data);
-
 
     $.post('/tweets/area', {points: data}, function (response) {
         $.each(response, function (index, tweet) {
-            console.log(tweet.text);
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(tweet.coordinates.latitude, tweet.coordinates.longitude),
                 map: map,

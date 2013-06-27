@@ -1,7 +1,7 @@
 package com.xebia.bigdata.web;
 
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.xebia.bigdata.Tweets;
 import com.xebia.bigdata.data.*;
 
 import javax.ws.rs.*;

@@ -1,9 +1,10 @@
-package com.xebia.bigdata.data;
+package com.xebia.bigdata;
 
 import com.google.common.base.Joiner;
 import com.mongodb.DB;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
+import com.xebia.bigdata.data.*;
 import org.jongo.Jongo;
 import org.jongo.MongoCollection;
 
@@ -61,7 +62,8 @@ public class Tweets {
 
     public static GeoNearResults findNearest(double lat, double lng, long limit) {
         //db.runCommand({geoNear : "tweets", near : {type:"Point",coordinates : [2.1840906,48.8399779]},spherical : true,limit : 5})
-        GeoNearResults result = jongo.runCommand("{geoNear : \"tweets\", near : {type:\"Point\",coordinates : [#,#]},spherical : true,limit : #}", lng, lat, limit).as(GeoNearResults.class);
+        GeoNearResults result = jongo.runCommand("{geoNear : 'tweets', near : {type:'Point',coordinates : [#,#]},spherical : true,limit : #}", lng, lat, limit)
+                .as(GeoNearResults.class);
 
         return result;
     }
@@ -71,10 +73,8 @@ public class Tweets {
         Joiner joiner = Joiner.on(",");
         String req = joiner.join(requestPolygon.coordinatesList);
 
-        String mongoRequest = "{\"coordinates\" :{ $geoWithin : { $geometry :{type : \"Polygon\" , coordinates : [[" + req + "]] } } } }";
-        System.out.println(mongoRequest);
-
-        Iterable<Tweet> tweets = jongo.getCollection("tweets").find(mongoRequest)
+        Iterable<Tweet> tweets = jongo.getCollection("tweets")
+                .find("{'coordinates' :{ $geoWithin : { $geometry :{type : 'Polygon' , coordinates : [[" + req + "]] } } } }")
                 .limit(MAX_TWEETS)
                 .as(Tweet.class);
 
