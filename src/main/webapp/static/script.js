@@ -2,7 +2,7 @@ var map,
     pointarray,
     heatmap,
     taxiData = [],
-    now = moment("20130625 10", "YYYYMMDD h A").minutes(0).seconds(0).milliseconds(0),
+    now = moment("20130625 11", "YYYYMMDD h a").minutes(0).seconds(0).milliseconds(0),
     moments = [],
     search,
     me;
@@ -76,7 +76,7 @@ function displayDots(term) {
 
 function worldwideHeatmap() {
     console.log('Get worldwide');
-    $.getJSON('/tweets/worldwide?start=' + now + '&end=' + now.clone().add(1, 'hour'),
+    $.getJSON('/tweets/worldwide?start=' + now + '&end=' + now.clone().add(1, 'day'),
         function (data) {
             $.each(data, function (index, pos) {
                 if (pos.latitude) {
@@ -85,7 +85,7 @@ function worldwideHeatmap() {
                 }
             });
             heatmap.setData(taxiData);
-            $('.tweet b').text(taxiData.length);
+
         });
 };
 

@@ -16,6 +16,8 @@ public class Tweets {
 
     private static Jongo jongo;
 
+    public static final double RADIUS = (double) 100 / 6371;
+
     static {
         try {
             Mongo mongo = new MongoClient("mongo-1.aws.xebiatechevent.info");
@@ -28,11 +30,10 @@ public class Tweets {
 
     public static List<Tweet> get(double lat, double lng, Date start, Date end) {
         MongoCollection collection = jongo.getCollection("tweets");
-        double radius = (double)100/6371;
         Iterable<Tweet> tweets = collection
-                .find("{ coordinates : { $geoWithin :{ $centerSphere: [ [ #,# ], #] } } }", lng, lat, radius)
+                .find("{ date:{$gte:#,$lte:#}, coordinates : { $geoWithin :{ $centerSphere: [ [ #,# ], #] } } }", start, end, lng, lat, RADIUS)
                 .projection("{coordinates:1,date:1}")
-                .limit(5000)
+                .limit(40000)
                 .as(Tweet.class);
         return newArrayList(tweets);
     }
