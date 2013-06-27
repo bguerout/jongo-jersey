@@ -24,7 +24,7 @@ public class Tweets {
         return new ArrayList<Tweet>();
     }
 
-    public static List<Tweet> heatmap(double lat, double lng, Date start, Date end) {
+    public static List<Tweet> get(double lat, double lng, Date start, Date end) {
         return new ArrayList<Tweet>();
     }
 

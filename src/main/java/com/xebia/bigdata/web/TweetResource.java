@@ -52,15 +52,15 @@ public class TweetResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response heatmap(@QueryParam("lat") double lat,
-                            @QueryParam("lng") double lng,
-                            @QueryParam("start") long start,
-                            @QueryParam("end") long end) {
+    public Response get(@QueryParam("lat") double lat,
+                        @QueryParam("lng") double lng,
+                        @QueryParam("start") long start,
+                        @QueryParam("end") long end) {
 
         Date startAt = new Date(start);
         Date endAt = new Date(end);
 
-        List<Tweet> tweets = Tweets.heatmap(lat, lng, startAt, endAt);
+        List<Tweet> tweets = Tweets.get(lat, lng, startAt, endAt);
 
         return sendResponse(tweets);
     }
