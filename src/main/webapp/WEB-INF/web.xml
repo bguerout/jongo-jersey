@@ -34,5 +34,10 @@
         <url-pattern>/index2.html</url-pattern>
     </servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/index3.html</url-pattern>
+    </servlet-mapping>
+
 
 </web-app>

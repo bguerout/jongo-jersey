@@ -1,5 +1,6 @@
 package com.xebia.bigdata.data;
 
+import com.google.common.base.Joiner;
 import com.mongodb.DB;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
@@ -14,6 +15,7 @@ import static com.google.common.collect.Lists.newArrayList;
 
 public class Tweets {
 
+    public static final int MAX_TWEETS = 1000;
     private static Jongo jongo;
 
     public static final double RADIUS = (double) 100 / 6371;
@@ -62,5 +64,20 @@ public class Tweets {
         GeoNearResults result = jongo.runCommand("{geoNear : \"tweets\", near : {type:\"Point\",coordinates : [#,#]},spherical : true,limit : #}", lng, lat, limit).as(GeoNearResults.class);
 
         return result;
+    }
+
+    public static List<Tweet> findInArea(RequestPolygon requestPolygon) {
+        //db.tweets.find( {"coordinates" :{ $geoWithin : { $geometry :{type : "Polygon" , coordinates : [[[25.0974512743628,86.8965517241379],[-81.2293853073463,86.8965517241379],[-81.2293853073463,15.1124437781109],[25.0974512743628,15.1124437781109],[25.0974512743628,86.8965517241379]]] } } } })
+        Joiner joiner = Joiner.on(",");
+        String req = joiner.join(requestPolygon.coordinatesList);
+
+        String mongoRequest = "{\"coordinates\" :{ $geoWithin : { $geometry :{type : \"Polygon\" , coordinates : [[" + req + "]] } } } }";
+        System.out.println(mongoRequest);
+
+        Iterable<Tweet> tweets = jongo.getCollection("tweets").find(mongoRequest)
+                .limit(MAX_TWEETS)
+                .as(Tweet.class);
+
+        return newArrayList(tweets);
     }
 }

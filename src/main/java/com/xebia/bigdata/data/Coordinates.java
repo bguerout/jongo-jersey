@@ -25,4 +25,8 @@ public class Coordinates {
         }
         return 0;
     }
+
+    public String toString() {
+        return "[" + getLatitude() + "," + getLongitude() + "]";
+    }
 }

@@ -1,11 +1,13 @@
 package com.xebia.bigdata.web;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.xebia.bigdata.data.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.util.Date;
 import java.util.List;
@@ -77,6 +79,23 @@ public class TweetResource {
 
         return Response.ok(new GenericEntity<GeoNearResults>(nearest) {
         }).build();
+    }
+
+    @POST
+    @Consumes("application/x-www-form-urlencoded")
+    @Path("area")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findInArea(MultivaluedMap<String, String> formParams){
+        RequestPolygon requestPolygon = new RequestPolygon();
+        List<String> points = formParams.get("points[]");
+        for (String point : points) {
+            Coordinates c = new Coordinates(new double[]{Double.parseDouble(point.split(",")[0]),Double.parseDouble(point.split(",")[1])});
+            requestPolygon.coordinatesList.add(c);
+        }
+
+        List<Tweet> tweets = Tweets.findInArea(requestPolygon);
+
+        return sendResponse(tweets);
     }
 
     private <T> Response sendResponse(List<T> docs) {
