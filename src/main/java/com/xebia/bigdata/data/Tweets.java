@@ -47,4 +47,10 @@ public class Tweets {
         return new Heatmap(coords);
     }
 
+    public static GeoNearResults findNearest(double lat, double lng, long limit) {
+        //db.runCommand({geoNear : "tweets", near : {type:"Point",coordinates : [2.1840906,48.8399779]},spherical : true,limit : 5})
+        GeoNearResults result = jongo.runCommand("{geoNear : \"tweets\", near : {type:\"Point\",coordinates : [#,#]},spherical : true,limit : #}", lat, lng, limit).as(GeoNearResults.class);
+
+        return result;
+    }
 }

@@ -1,13 +1,11 @@
 package com.xebia.bigdata.web;
 
 import com.xebia.bigdata.data.Coordinates;
+import com.xebia.bigdata.data.GeoNearResults;
 import com.xebia.bigdata.data.Tweet;
 import com.xebia.bigdata.data.Tweets;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -50,6 +48,23 @@ public class TweetResource {
         List<Coordinates> coordinates = Tweets.getWorldwide(startAt, endAt).getCoordinates();
 
         return sendResponse(coordinates);
+    }
+
+    /**
+     * ex http://localhost:8080/tweets/nearest?lat=2&lng=48.5&limit=15
+     */
+    @GET
+    @Path("nearest")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findNearest(@QueryParam("lat") double lat,
+                                @QueryParam("lng") double lng,
+                                @QueryParam("limit") @DefaultValue("10") long limit) {
+
+
+        GeoNearResults nearest = Tweets.findNearest(lat, lng, limit);
+
+        return Response.ok(new GenericEntity<GeoNearResults>(nearest) {
+        }).build();
     }
 
     private <T> Response sendResponse(List<T> docs) {
