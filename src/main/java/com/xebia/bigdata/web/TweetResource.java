@@ -1,9 +1,7 @@
 package com.xebia.bigdata.web;
 
-import com.xebia.bigdata.data.Coordinates;
-import com.xebia.bigdata.data.GeoNearResults;
-import com.xebia.bigdata.data.Tweet;
-import com.xebia.bigdata.data.Tweets;
+import com.google.common.collect.Lists;
+import com.xebia.bigdata.data.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.GenericEntity;
@@ -32,6 +30,19 @@ public class TweetResource {
         List<Tweet> tweets = Tweets.get(lat, lng, startAt, endAt);
 
         return sendResponse(tweets);
+    }
+
+    /**
+     * ex http://localhost:8080/tweets/heatmap
+     */
+    @GET
+    @Path("stats")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response stats() {
+
+        List<Stat> stats = Lists.newArrayList(new Stat("bg", 619));
+
+        return sendResponse(Tweets.tagsPerLang());
     }
 
     /**

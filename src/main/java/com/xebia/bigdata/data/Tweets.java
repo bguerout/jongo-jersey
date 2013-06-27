@@ -38,6 +38,16 @@ public class Tweets {
         return newArrayList(tweets);
     }
 
+    public static List<Stat> tagsPerLang() {
+        MongoCollection collection = jongo.getCollection("tweets");
+        return collection
+                .aggregate("{$match:{'entities.hashtags':{$ne:[]}}}")
+                .and("{ $project : {lang : 1,  tags:'$entities.hashtags.text'} }")
+                .and("{ $unwind : '$tags' }")
+                .and("{ $group : {_id : '$lang',nbTags : { $sum : 1 }} }")
+                .as(Stat.class);
+    }
+
     public static Heatmap getWorldwide(Date start, Date end) {
         MongoCollection collection = jongo.getCollection("tweets");
         List<String> coords = collection
