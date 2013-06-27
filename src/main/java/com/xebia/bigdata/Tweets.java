@@ -4,8 +4,8 @@ import com.google.common.base.Joiner;
 import com.mongodb.DB;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
+import com.xebia.bigdata.data.Coordinates;
 import com.xebia.bigdata.data.GeoNearResults;
-import com.xebia.bigdata.data.RequestPolygon;
 import com.xebia.bigdata.data.Stat;
 import com.xebia.bigdata.data.Tweet;
 import org.jongo.Jongo;
@@ -52,10 +52,10 @@ public class Tweets {
         return result;
     }
 
-    public static List<Tweet> findInArea(RequestPolygon requestPolygon) {
+    public static List<Tweet> findInArea(List<Coordinates> coordinates) {
         //db.tweets.find( {"coordinates" :{ $geoWithin : { $geometry :{type : "Polygon" , coordinates : [[[25.0974512743628,86.8965517241379],[-81.2293853073463,86.8965517241379],[-81.2293853073463,15.1124437781109],[25.0974512743628,15.1124437781109],[25.0974512743628,86.8965517241379]]] } } } })
         Joiner joiner = Joiner.on(",");
-        String req = joiner.join(requestPolygon.coordinatesList);
+        String req = joiner.join(coordinates);
 
         Iterable<Tweet> tweets = jongo.getCollection("tweets")
                 .find("{'coordinates' :{ $geoWithin : { $geometry :{type : 'Polygon' , coordinates : [[" + req + "]] } } } }")

@@ -7,15 +7,4 @@ public class Tweet {
     public Coordinates coordinates;
     public Date date;
     public String text;
-
-
-    public Tweet(Coordinates coordinates, Date date) {
-        this.coordinates = coordinates;
-        this.date = date;
-    }
-
-    //used by jackson
-    public Tweet() {
-    }
-
 }
