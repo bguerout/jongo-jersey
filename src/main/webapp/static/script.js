@@ -53,6 +53,7 @@ function displayDots(term) {
     console.log('Get tweets for position: lat=' + me.latitude + '/lng=' + me.longitude + '/start=' + now);
     $.getJSON('/tweets?lat=' + me.latitude +
         '&lng=' + me.longitude +
+        '&search=' + search +
         '&start=' + now +
         '&end=' + now.clone().add(1, 'hour'),
         function (data) {
